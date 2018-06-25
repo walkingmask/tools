@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>URL encoder/decoder</title>
+  <meta name="description" content="URL encoder/decoder">
+  <link rel="icon" type="image/png" href="./url.png">
+  <script>
+  // https://www.nishishi.com/javascript-tips/encodeuri.html
+  function EncodeStringToUri() {
+    var EncStr = encodeURI( document.getElementById("input").value );
+    document.getElementById("output").innerHTML = EncStr;
+  }
+  function DecodeStringToUri() {
+    var DecStr = decodeURI( document.getElementById("input").value );
+    document.getElementById("output").innerHTML = DecStr;
+  }
+  // https://qiita.com/simiraaaa/items/2e7478d72f365aa48356
+  function execCopy(string){
+    var temp = document.createElement('div');
+    temp.appendChild(document.createElement('pre')).textContent = document.getElementById('output').value;
+    var s = temp.style;
+    s.position = 'fixed';
+    s.left = '-100%';
+    document.body.appendChild(temp);
+    document.getSelection().selectAllChildren(temp);
+    var result = document.execCommand('copy');
+    document.body.removeChild(temp);
+      return result;
+  }
+  </script>
+  <style type="text/css">
+    body {
+      background: #141414;
+      color: #d7d7d7;
+    }
+    h1 {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+    .outer {
+      width: : 100%;
+    }
+    .inner {
+      width: 80%;
+      margin: 0 auto;
+    }
+    #buttons {
+      text-align: center;
+    }
+    button {
+      font-size: 1.4em;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1> URL encoder/decoder </h1>
+  </header>
+  <div class="outer">
+    <div class="inner">
+      <p><textarea id="input" cols=140 rows=7></textarea></p>
+      <p id="buttons">
+        <button onclick='EncodeStringToUri()'>encode</button>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <button onclick='DecodeStringToUri()'>decode</button>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <button onclick='execCopy()'>copy &darr;</button>
+      </p>
+      <p><textarea id="output" cols=140 rows=7></textarea></p>
+    </div>
+  </div>
+</body>
+</html>

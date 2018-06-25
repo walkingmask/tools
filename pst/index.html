@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>PST Time</title>
+  <meta name="description" content="PST Time">
+  <link rel="icon" type="image/png" href="./clock.png">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.js"></script>
+  <script>
+  function clock() {
+    var jpn = moment();
+    var pst = jpn.add(-17, "hours");
+    document.getElementById('clock').innerHTML=pst.format("YYYY/MM/DD HH:mm:ss");
+
+    window . setTimeout("clock()", 1000);
+  }
+  window.onload = clock;
+  </script>
+  <style type="text/css">
+    body {
+      background: #141414;
+      color: #d7d7d7;
+    }
+    h1 {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+    #clock {
+      width: 100%;
+      height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      font-size: 8vw;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1> Pacific Standard Time (PST) </h1>
+  </header>
+  <div id="clock"></div>
+</body>
+</html>

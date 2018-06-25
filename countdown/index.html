@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>Countdown Timer</title>
+  <meta name="description" content="Countdown Timer">
+  <link rel="icon" type="image/png" href="./countdown.png">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.js"></script>
+  <style type="text/css">
+    body {
+      background: #141414;
+      color: #d7d7d7;
+    }
+    h1 {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+    #display {
+      width: 100%;
+      height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      font-size: 17vw;
+      font-weight: bold;
+    }
+    #counter, #controler {
+      width: 100%;
+      height: 10vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: row;
+    }
+    #counter span {
+      margin-left: 10px;
+      font-size: 3vw;
+      font-weight: bold;
+    }
+    #counter button,
+    #controler button {
+      margin-left: 10px;
+      font-size: 2vw;
+      width: 30px;
+      font-weight: bold;
+      border-style: none;
+      background: #d7d7d7;
+      border-radius: 3px;
+    }
+    #counter button:focus,
+    #controler button:focus {
+      outline: none
+    }
+    #counter button:active,
+    #controler button:active {
+      background: #ffffff;
+    }
+    #controler button {
+      margin-left: 20px !important;
+      width: 100px !important;
+    }
+    .deactivate {
+      pointer-events: none;
+      opacity: 0.4;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1> The Simplest Countdown Timer 🍜 </h1>
+  </header>
+  <div id="display">00:03:00</div>
+  <div id="counter">
+    <span>H: </span>
+    <button onclick="setTime(1, 'hours')">+</button>
+    <button onclick="setTime(-1, 'hours')">-</button>
+    <span>M: </span>
+    <button onclick="setTime(1, 'minutes')">+</button>
+    <button onclick="setTime(-1, 'minutes')">-</button>
+    <span>S: </span>
+    <button onclick="setTime(1, 'seconds')">+</button>
+    <button onclick="setTime(-1, 'seconds')">-</button>
+  </div>
+  <div id="controler">
+    <button id="toggle" onclick="toggleTimer()">Start</button>
+    <button id="reset" onclick="">Reset</button>
+    <button id="clear" onclick="">Clear</button>
+  </div>
+
+<script>
+const display = document.getElementById('display')
+var time = moment('1990-01-01 '+display.innerText)
+var timer = time.clone()
+var loop = undefined
+
+function setTime(value, unit) {
+  time.add(value, unit)
+  timer = time.clone()
+  display.innerText = time.format('HH:mm:ss')
+}
+
+function stopTimer() {
+  clearInterval(loop)
+  loop = undefined
+  document.getElementById('toggle').innerText = 'Start'
+  document.getElementById('counter').classList.remove('deactivate');
+}
+
+document.getElementById('toggle').onclick = function() {
+  if (! loop) {
+    document.getElementById('counter').classList.add('deactivate');
+    loop = setInterval(function(){
+      if (timer.format('HHmmss') === '000000') {
+        stopTimer()
+        notify()
+        display.innerText = time.format('HH:mm:ss')
+        return
+      }
+      timer.add(-1, 'seconds')
+      display.innerText = timer.format('HH:mm:ss')
+    }, 1000)
+    this.innerText = 'Stop'
+  } else {
+    stopTimer()
+  }
+}
+
+function notify() {
+  new Audio("http://taira-komori.jpn.org/sound/animals01/chick.mp3").play()
+}
+
+
+document.getElementById('reset').onclick = function() {
+  stopTimer()
+  timer = time.clone()
+  display.innerText = time.format('HH:mm:ss')
+}
+
+document.getElementById('clear').onclick = function() {
+  stopTimer()
+  time = moment('1990-01-01 00:00:00')
+  timer = time.clone()
+  display.innerText = time.format('HH:mm:ss')
+}
+</script>
+
+</body>
+</html>
